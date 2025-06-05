@@ -1,4 +1,6 @@
-﻿using TaskManager.Domain;
+﻿namespace TaskManager.Domain.Tests;
+
+using TaskManager.Domain.Helpers;
 using Xunit;
 public class EmailValidatorTests
 {

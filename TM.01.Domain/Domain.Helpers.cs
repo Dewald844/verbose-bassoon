@@ -1,4 +1,4 @@
-namespace TaskManager.Domain;
+namespace TaskManager.Domain.Helpers;
 
 using System.Data.Common;
 using System.Text.RegularExpressions;
