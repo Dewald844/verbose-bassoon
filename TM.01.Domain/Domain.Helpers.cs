@@ -1,7 +1,7 @@
 namespace TaskManager.Domain.Helpers;
 
-using System.Data.Common;
 using System.Text.RegularExpressions;
+using System.Security.Cryptography;
 
 public record Error(string Code, string Message);
 
@@ -65,5 +65,31 @@ public class EmailValidator
         string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
         Regex regex = new Regex(pattern);
         return regex.IsMatch(email);
+    }
+}
+
+public class PasswordValidator
+{
+    public static bool IsValidPassword(string password)
+    {
+        if (string.IsNullOrWhiteSpace(password))
+            return false;
+        string pattern = @"^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+=\[\]{}<>?\-]).{8,}$";
+        Regex regex = new Regex(pattern);
+        return regex.IsMatch(password);
+    }
+
+    private static byte[] GenerateSalt(int size = 16)
+    {
+        var salt = new byte[size];
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(salt);
+        return salt;
+    }
+
+    public static byte[] HashPassword(string password, byte[] salt, int iterations = 100_000, int hashByteSize = 32)
+    {
+        using var pbkdf2 = new Rfc2898DeriveBytes(password, salt, iterations, HashAlgorithmName.SHA256);
+        return pbkdf2.GetBytes(hashByteSize);
     }
 }
