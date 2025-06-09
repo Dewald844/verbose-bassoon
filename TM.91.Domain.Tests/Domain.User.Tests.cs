@@ -1,5 +1,6 @@
 namespace TaskManager.Domain.Tests;
 
+using System.Net;
 using TaskManager.Domain;
 using TaskManager.Domain.Helpers;
 using Xunit;
@@ -57,5 +58,21 @@ public class UserTests
 
         Assert.True(updateEmailR_success.IsSuccess);
         Assert.Equal("test2@test.co.za", testUser.UserAdminWithData.UserData.User_email);
+    }
+
+    [Fact]
+    public void TestUserPasswordUpdate()
+    {
+        var testUser = new TestData();
+
+        var updatePasswordR_failure = testUser.UserAdminWithData.UpdateUserPassword_R("", "NewSecureP@ss1");
+
+        Assert.True(updatePasswordR_failure.IsFailure);
+        Assert.Equal(updatePasswordR_failure.Error, new Error("Error.InvalidCurrentPassword", ""));
+
+        var updatePasswordR_success = testUser.UserAdminWithData.UpdateUserPassword_R("Test1234", "NewSecureP@ss1");
+
+        Assert.True(updatePasswordR_success.IsSuccess);
+        Assert.Equal("NewSecureP@ss1", testUser.UserAdminWithData.UserData.User_password);
     }
 }
