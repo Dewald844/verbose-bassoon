@@ -13,7 +13,6 @@ public class TestData
             User_email = "test@test.co.za",
             User_name = "Test test",
             User_password = "Test1234",
-            Company_id = 1
         };
 
     public static UserRole UserAdminRole { get; set; } = UserRole.Admin;

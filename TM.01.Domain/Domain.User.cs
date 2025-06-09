@@ -19,7 +19,6 @@ public class UserData
     public required string User_name { get; set; }
     public required string User_password { get; set; }
     public required string User_email { get; set; }
-    public required int Company_id { get; set; }
 
     public UserData() {}
 }
