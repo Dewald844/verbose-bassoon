@@ -3,8 +3,14 @@
 using TaskManager.Domain.Helpers;
 public class UserErrors : Errors
 {
-    public static Error InvalidNameString(string invalidName) => new("Error.InvalidNameString", invalidName);
-    public static Error InvalidEmailString(string invalidEmail) => new("Error.InvalidEmailString", invalidEmail);
+    public static Error InvalidNameString(string invalidName) =>
+        new("Error.InvalidNameString", invalidName);
+    public static Error InvalidEmailString(string invalidEmail) =>
+        new("Error.InvalidEmailString", invalidEmail);
+    public static Error InvalidPasswordString(string invalidPassword) =>
+        new("Error.InvalidPasswordString", invalidPassword);
+    public static Error InvalidCurrentPassword(string currentPassword) =>
+        new("Error.InvalidCurrentPassword", currentPassword);
 }
 
 public class UserData
@@ -24,8 +30,8 @@ public class User
 {
     public required UserData UserData { get; set; }
     public required UserRole UserRole { get; set; }
-    public User() {}
-    
+    public User() { }
+
     public Result UpdateUserName_R(string newName)
     {
         if (string.IsNullOrWhiteSpace(newName))
@@ -39,9 +45,21 @@ public class User
     {
         if (!EmailValidator.IsValidEmail(email))
             return Result.Failure(UserErrors.InvalidEmailString(email));
-            
+
         UserData.User_email = email;
         return Result.Success();
 
+    }
+
+    public Result UpdateUserPassword_R(string currentPassword, string newPassword)
+    {
+        if (!PasswordValidator.IsValidPassword(newPassword))
+            return Result.Failure(UserErrors.InvalidPasswordString(newPassword));
+
+        if (currentPassword != UserData.User_password)
+            return Result.Failure(UserErrors.InvalidCurrentPassword(currentPassword));
+
+        UserData.User_password = newPassword;
+        return Result.Success();
     }
 }

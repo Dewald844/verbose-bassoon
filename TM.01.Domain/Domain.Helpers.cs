@@ -79,7 +79,7 @@ public class PasswordValidator
         return regex.IsMatch(password);
     }
 
-    private static byte[] GenerateSalt(int size = 16)
+    public static byte[] GenerateSalt(int size = 16)
     {
         var salt = new byte[size];
         using var rng = RandomNumberGenerator.Create();

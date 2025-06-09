@@ -5,9 +5,7 @@
 ## Core Features
 
 ### User Authentication
-- [ ] Sign up, login, password reset
-- [ ] Role-based access control (e.g., admin, user)
-- [ ] Secure authentication (JWT, OAuth)
+- [x] Role-based access control (e.g., admin, user)
 
 ### Task Creation and Management
 - [ ] Create, edit, delete tasks
