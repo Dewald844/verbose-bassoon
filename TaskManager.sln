@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TM.01.Domain", "TM.01.Domai
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TM.91.Domain.Tests", "TM.91.Domain.Tests\TM.91.Domain.Tests.csproj", "{6A7D327A-3C59-4A50-AD0B-FAEE78AEF6D3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TM.02.Database", "TM.02.Database\TM.02.Database.csproj", "{98FF5828-FF74-4704-8A58-66F83B5176CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{6A7D327A-3C59-4A50-AD0B-FAEE78AEF6D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A7D327A-3C59-4A50-AD0B-FAEE78AEF6D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A7D327A-3C59-4A50-AD0B-FAEE78AEF6D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98FF5828-FF74-4704-8A58-66F83B5176CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98FF5828-FF74-4704-8A58-66F83B5176CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98FF5828-FF74-4704-8A58-66F83B5176CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98FF5828-FF74-4704-8A58-66F83B5176CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

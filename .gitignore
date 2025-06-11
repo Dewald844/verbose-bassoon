@@ -10,3 +10,5 @@ TM.91.Domain.Tests/bin/Debug/*
 TM.91.Domain.Tests/obj/*
 TM.01.Domain/obj/*
 TM.91.Domain.Tests/*
+
+.fake
