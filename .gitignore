@@ -6,9 +6,11 @@
 .idea/.idea.TaskManager/.idea/indexLayout.xml
 .idea/.idea.TaskManager/.idea/vcs.xml
 TM.01.Domain/bin/*
+TM.02.Database/bin/*
 TM.91.Domain.Tests/bin/Debug/*
 TM.91.Domain.Tests/obj/*
 TM.01.Domain/obj/*
+TM.02.Database/obj/*
 TM.91.Domain.Tests/*
 
 .fake
