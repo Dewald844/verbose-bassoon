@@ -14,3 +14,15 @@ TM.02.Database/obj/*
 TM.91.Domain.Tests/*
 
 .fake
+TM.03.Interface/obj/Debug/net9.0/TM.03.Interface.GlobalUsings.g.cs
+TM.03.Interface/obj/Debug/net9.0/TM.03.Interface.GeneratedMSBuildEditorConfig.editorconfig
+TM.03.Interface/obj/Debug/net9.0/TM.03.Interface.csproj.AssemblyReference.cache
+TM.03.Interface/obj/Debug/net9.0/TM.03.Interface.assets.cache
+TM.03.Interface/obj/Debug/net9.0/TM.03.Interface.AssemblyInfoInputs.cache
+TM.03.Interface/obj/Debug/net9.0/TM.03.Interface.AssemblyInfo.cs
+TM.03.Interface/obj/Debug/net9.0/.NETCoreApp,Version=v9.0.AssemblyAttributes.cs
+TM.03.Interface/obj/TM.03.Interface.csproj.nuget.g.targets
+TM.03.Interface/obj/TM.03.Interface.csproj.nuget.g.props
+TM.03.Interface/obj/TM.03.Interface.csproj.nuget.dgspec.json
+TM.03.Interface/obj/project.nuget.cache
+TM.03.Interface/obj/project.assets.json
