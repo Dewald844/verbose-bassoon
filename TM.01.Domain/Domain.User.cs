@@ -29,34 +29,33 @@ public class User
     public required UserData UserData { get; set; }
     public required UserRole UserRole { get; set; }
 
-    public Result UpdateUserName_R(string newName)
+    public static Result<User> UpdateUserName_R(string newName, User user)
     {
         if (string.IsNullOrWhiteSpace(newName))
-            return Result.Failure(UserErrors.InvalidNameString(newName));
+            return Result<User>.Failure(UserErrors.InvalidNameString(newName));
 
-        UserData.UserName = newName;
-        return Result.Success();
+        user.UserData.UserName = newName;
+        return Result<User>.Success(user);
     }
 
-    public Result UpdateUserEmail_R(string email)
+    public static Result<User> UpdateUserEmail_R(string email, User user)
     {
         if (!EmailValidator.IsValidEmail(email))
-            return Result.Failure(UserErrors.InvalidEmailString(email));
+            return Result<User>.Failure(UserErrors.InvalidEmailString(email));
 
-        UserData.UserEmail = email;
-        return Result.Success();
-
+        user.UserData.UserEmail = email;
+        return Result<User>.Success(user);
     }
 
-    public Result UpdateUserPassword_R(string currentPassword, string newPassword)
+    public static Result<User> UpdateUserPassword_R(string currentPassword, string newPassword, User user)
     {
         if (!PasswordValidator.IsValidPassword(newPassword))
-            return Result.Failure(UserErrors.InvalidPasswordString(newPassword));
+            return Result<User>.Failure(UserErrors.InvalidPasswordString(newPassword));
 
-        if (currentPassword != UserData.UserPassword)
-            return Result.Failure(UserErrors.InvalidCurrentPassword(currentPassword));
+        if (currentPassword != user.UserData.UserPassword)
+            return Result<User>.Failure(UserErrors.InvalidCurrentPassword(currentPassword));
 
-        UserData.UserPassword = newPassword;
-        return Result.Success();
+        user.UserData.UserPassword = newPassword;
+        return Result<User>.Success(user);
     }
 }

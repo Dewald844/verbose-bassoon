@@ -10,7 +10,7 @@ public class TaskDTO
     public required string Title;
     public required string Description;
     public int CategoryId;
-    public required string AssigneeIdL; // Assuming this is a JSON string for multiple assignees
+    public required string AssigneeIdL; 
     public DateTime CreatedDate;
     public DateTime DueDate;
     public DateTime CompletedDate;
@@ -61,12 +61,13 @@ public class TaskDTO
 public class TaskRepository
 {
     private readonly Controller<TaskDTO> _controller = new();
+    private readonly Controller<int> _idController = new();
 
-    public async Task<IEnumerable<Domain.Task>> GetAllTasksAsync()
+    public async Task<int> ReadLatestTaskId()
     {
-        string query = "SELECT * FROM Task";
-        var result = await _controller.Select(query);
-        return result.Select(taskDto => taskDto.ToDomain());
+        string query = "SELECT TOP 1 TaskId FROM Task ORDER BY TaskId DESC";
+        var task = await _idController.Select(query);
+        return task.FirstOrDefault(0);
     }
 
     public async Task<Domain.Task?> GetTaskByIdAsync(int taskId)
@@ -74,6 +75,13 @@ public class TaskRepository
         string query = "SELECT * FROM Task WHERE TaskId = @TaskId";
         var tasks = await _controller.Select(query.Replace("@TaskId", taskId.ToString()));
         return tasks.FirstOrDefault()?.ToDomain();
+    }
+
+    public async Task<IEnumerable<Domain.Task>> GetAllTasksAsync()
+    {
+        string query = "SELECT * FROM Task";
+        var result = await _controller.Select(query);
+        return result.Select(taskDto => taskDto.ToDomain());
     }
 
     public async Task AddTaskAsync(Domain.Task task)

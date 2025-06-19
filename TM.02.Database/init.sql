@@ -1,3 +1,10 @@
+-- This SQL script initializes the database schema for a task management system.
+PRAGMA foreign_keys = ON;
+PRAGMA encoding = "UTF-8";
+PRAGMA journal_mode = WAL;
+PRAGMA locking_mode = EXCLUSIVE; -- Use exclusive locking mode for better concurrency
+-- Create tables for the task management system     
+
 CREATE TABLE User (
     UserId INTEGER PRIMARY KEY,
     UserName TEXT NOT NULL,
@@ -7,7 +14,7 @@ CREATE TABLE User (
 );
 
 CREATE TABLE Task (
-    TaskId INTEGER PRIMARY KEY,
+    TaskId INTEGER PRIMARY KEY ,
     Title TEXT NOT NULL,
     Description TEXT NOT NULL,
     CategoryId INTEGER NOT NULL,
