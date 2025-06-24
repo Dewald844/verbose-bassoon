@@ -14,7 +14,7 @@ public static class UserRepository
         return await _controller.Select(query);
     }
 
-    public static async Task<Domain.User?> GetUserByIdAsync(int userId)
+    public static async Task<Domain.User?> ReadUserByIdAsync(int userId)
     {
         string query = "SELECT * FROM User WHERE UserId = @UserId";
         var users = await _controller.Select(query.Replace("@UserId", userId.ToString()));
@@ -52,7 +52,7 @@ public static class UserRepository
         await _controller.DeleteSingle(query, userId);
     }
 
-    public static async Task<int> ReadLatestuserId()
+    public static async Task<int> ReadLatestUserId()
     {
         string query = "SELECT TOP 1 UserId FROM User ORDER BY UserId Desc";
         var users = await _idController.Select(query);

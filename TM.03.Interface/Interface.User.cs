@@ -2,8 +2,108 @@
 
 using TaskManager.Domain;
 using TaskManager.Domain.Helpers;
-public class User
+public class UserInterface
 {
+
+    public static async Task<Result> UpdateUserName(int userId, string newName)
+    {
+        User? user = await Database.UserRepository.ReadUserByIdAsync(userId);
+
+        if (user == null)
+            return Result.Failure(new Error(
+                "Error.UpdateUserName"
+                , "User does not exist int the database"
+            ));
+
+        Result<User> updateResult = User.UpdateUserName_R(newName, user);
+
+        if (updateResult.IsSuccess)
+        {
+            try
+            {
+                await Database.UserRepository.UpdateUserAsync(updateResult.Value);
+                return Result.Success();
+            }
+            catch (Exception e)
+            {
+                return Result.Failure(new Error(
+                    "Error.UpdateUserName"
+                    , e.Message
+                ));
+            }
+        }
+        else
+        {
+            return Result.Failure(updateResult.Error);
+        }
+    }
+
+    public static async Task<Result> UpdateUserEmail(int userId, string newEmail)
+    {
+        User? user = await Database.UserRepository.ReadUserByIdAsync(userId);
+
+        if (user == null)
+            return Result.Failure(new Error(
+                "Error.UpdateUserEmail"
+                , "User does not exist int the database"
+            ));
+
+        Result<User> updateResult = User.UpdateUserEmail_R(newEmail, user);
+
+        if (updateResult.IsSuccess)
+        {
+            try
+            {
+                await Database.UserRepository.UpdateUserAsync(updateResult.Value);
+                return Result.Success();
+            }
+            catch (Exception e)
+            {
+                return Result.Failure(new Error(
+                    "Error.UpdateUserEmail"
+                    , e.Message
+                ));
+            }
+        }
+        else
+        {
+            return Result.Failure(updateResult.Error);
+        }
+    }
+
+    public static async Task<Result> UpdateUserPassword(int userId, string currentPassword, string newPassword)
+    {
+        User? user = await Database.UserRepository.ReadUserByIdAsync(userId);
+
+        if (user == null)
+            return Result.Failure(new Error(
+                "Error.UpdateUserPassword"
+                , "User does not exist int the database"
+            ));
+
+        Result<User> updateResult = User.UpdateUserPassword_R(currentPassword,newPassword, user);
+
+        if (updateResult.IsSuccess)
+        {
+            try
+            {
+                await Database.UserRepository.UpdateUserAsync(updateResult.Value);
+                return Result.Success();
+            }
+            catch (Exception e)
+            {
+                return Result.Failure(new Error(
+                    "Error.UpdateUserPassword"
+                    , e.Message
+                ));
+            }
+        }
+        else
+        {
+            return Result.Failure(updateResult.Error);
+        }
+    }
+
     public static async Task<Result<int>> CreateAndSaveUser(
         string email
         , string userName
@@ -21,7 +121,7 @@ public class User
                 , "Email address already in use"
             ));
 
-        int newUserId = await Database.UserRepository.ReadLatestuserId();
+        int newUserId = await Database.UserRepository.ReadLatestUserId();
 
         // Check user password and email
 
@@ -33,7 +133,7 @@ public class User
 
         // Create user data from input
 
-        UserData userData = new()
+        Domain.UserData userData = new()
         {
             UserId = newUserId,
             UserName = userName,
@@ -41,7 +141,7 @@ public class User
             UserEmail = email
         };
 
-        UserRole role = (userRole == "Admin") ? UserRole.Admin : UserRole.User;
+        Domain.UserRole role = (userRole == "Admin") ? Domain.UserRole.Admin : Domain.UserRole.User;
 
         Domain.User newUser = new()
         {
