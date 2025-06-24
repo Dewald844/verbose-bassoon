@@ -20,8 +20,6 @@ public class TaskData
     public required DateTime CreatedDate { get; set; }
     public required DateTime DueDate { get; set; }
     public DateTime? CompletedDate { get; set; }
-
-    public TaskData() { }
 }
 
 public enum Status { Created, InProgress, Complete }
@@ -33,60 +31,63 @@ public class Task
     public required Status TaskStatus { get; set; }
     public required Priority TaskPriority { get; set; }
     public required TaskData TaskData { get; set; }
+}
 
-    public Result UpdateTaskStatus_R(Status newStatus)
+public class TaskCommand
+{
+    public Result UpdateTaskStatus_R(Task task, Status newStatus)
     {
-        TaskStatus = newStatus;
+        task.TaskStatus = newStatus;
         return Result.Success();
     }
 
-    public Result UpdateTaskPriority_R(Priority newPriority)
+    public Result UpdateTaskPriority_R(Task task, Priority newPriority)
     {
-        if (TaskStatus is Status.Complete)
+        if (task.TaskStatus is Status.Complete)
             return Result.Failure(TaskErrors.InvalidTaskState("Task is already complete cannot update priority"));
 
-        TaskPriority = newPriority;
+        task.TaskPriority = newPriority;
         return Result.Success();
     }
 
-    public Result AppendAssignedUser_R(int userId)
+    public Result AppendAssignedUser_R(Task task, int userId)
     {
-        if (TaskStatus is Status.Complete)
+        if (task.TaskStatus is Status.Complete)
             return Result.Failure(TaskErrors.InvalidTaskState("Task is already complete cannot add assignee"));
             
-        if (TaskData.AssigneeIdL.Add(userId))
+        if (task.TaskData.AssigneeIdL.Add(userId))
             return Result.Success();
         else
             return Result.Success();
     }
 
-    public Result RemoveAssignedUser_R(int userId)
+    public Result RemoveAssignedUser_R(Task task, int userId)
     {
-        if (TaskStatus is Status.Complete)
+        if (task.TaskStatus is Status.Complete)
             return Result.Failure(TaskErrors.InvalidTaskState("Task is already complete cannot remove assignee"));
 
-        if (TaskData.AssigneeIdL.Remove(userId))
+        if (task.TaskData.AssigneeIdL.Remove(userId))
             return Result.Success();
         else
             return Result.Failure(TaskErrors.UserNotPresentInAssigneeL());
     }
 
-    public Result UpdateDueDate_R(DateTime newDueDate)
+    public Result UpdateDueDate_R(Task task, DateTime newDueDate)
     {
-        if (TaskStatus is Status.Complete)
+        if (task.TaskStatus is Status.Complete)
             return Result.Failure(TaskErrors.InvalidTaskState("Task is already complete cannot update due date"));
 
-        TaskData.DueDate = newDueDate;
+        task.TaskData.DueDate = newDueDate;
         return Result.Success();
     }
 
-    public Result CompleteTask_R(DateTime completeDate)
+    public Result CompleteTask_R(Task task, DateTime completeDate)
     {
-        if (TaskStatus is Status.Complete)
+        if (task.TaskStatus is Status.Complete)
             return Result.Failure(TaskErrors.InvalidTaskState("Task is already marked as completed"));
 
-        TaskData.CompletedDate = completeDate;
-        TaskStatus = Status.Complete;
+        task.TaskData.CompletedDate = completeDate;
+        task.TaskStatus = Status.Complete;
         return Result.Success();
     }
 }

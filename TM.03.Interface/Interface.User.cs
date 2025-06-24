@@ -7,7 +7,7 @@ public class UserInterface
 
     public static async Task<Result> UpdateUserName(int userId, string newName)
     {
-        User? user = await Database.UserRepository.ReadUserByIdAsync(userId);
+        UserState? user = await Database.UserRepository.ReadUserByIdAsync(userId);
 
         if (user == null)
             return Result.Failure(new Error(
@@ -15,7 +15,7 @@ public class UserInterface
                 , "User does not exist int the database"
             ));
 
-        Result<User> updateResult = User.UpdateUserName_R(newName, user);
+        Result<UserState> updateResult = UserCommmand.UpdateUserName_R(newName, user);
 
         if (updateResult.IsSuccess)
         {
@@ -40,7 +40,7 @@ public class UserInterface
 
     public static async Task<Result> UpdateUserEmail(int userId, string newEmail)
     {
-        User? user = await Database.UserRepository.ReadUserByIdAsync(userId);
+        UserState? user = await Database.UserRepository.ReadUserByIdAsync(userId);
 
         if (user == null)
             return Result.Failure(new Error(
@@ -48,7 +48,7 @@ public class UserInterface
                 , "User does not exist int the database"
             ));
 
-        Result<User> updateResult = User.UpdateUserEmail_R(newEmail, user);
+        Result<UserState> updateResult = UserCommmand.UpdateUserEmail_R(newEmail, user);
 
         if (updateResult.IsSuccess)
         {
@@ -71,9 +71,12 @@ public class UserInterface
         }
     }
 
-    public static async Task<Result> UpdateUserPassword(int userId, string currentPassword, string newPassword)
-    {
-        User? user = await Database.UserRepository.ReadUserByIdAsync(userId);
+    public static async Task<Result> UpdateUserPassword(
+        int userId
+        , string currentPassword
+        , string newPassword
+    ){
+        UserState? user = await Database.UserRepository.ReadUserByIdAsync(userId);
 
         if (user == null)
             return Result.Failure(new Error(
@@ -81,7 +84,11 @@ public class UserInterface
                 , "User does not exist int the database"
             ));
 
-        Result<User> updateResult = User.UpdateUserPassword_R(currentPassword,newPassword, user);
+        Result<UserState> updateResult = UserCommmand.UpdateUserPassword_R(
+            currentPassword
+            , newPassword
+            , user
+        );
 
         if (updateResult.IsSuccess)
         {
@@ -109,11 +116,10 @@ public class UserInterface
         , string userName
         , string password
         , string userRole
-    )
-    {
+    ){
         // Check if the user does exist 
 
-        User? user = await Database.UserRepository.ReadUserByEmailAddress(email);
+        UserState? user = await Database.UserRepository.ReadUserByEmailAddress(email);
 
         if (user != null)
             return Result<int>.Failure(new Error(
@@ -143,7 +149,7 @@ public class UserInterface
 
         UserRole role = (userRole == "Admin") ? UserRole.Admin : UserRole.User;
 
-        User newUser = new()
+        UserState newUser = new()
         {
             UserData = userData,
             UserRole = role

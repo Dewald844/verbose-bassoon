@@ -5,37 +5,37 @@ namespace TaskManager.Database;
 
 public static class UserRepository
 {
-    private static readonly Controller<Domain.User> _controller = new();
+    private static readonly Controller<Domain.UserState> _controller = new();
     private static readonly Controller<int> _idController = new();
 
-    public static async Task<IEnumerable<Domain.User>> GetAllUsersAsync()
+    public static async Task<IEnumerable<Domain.UserState>> GetAllUsersAsync()
     {
         string query = "SELECT * FROM User";
         return await _controller.Select(query);
     }
 
-    public static async Task<Domain.User?> ReadUserByIdAsync(int userId)
+    public static async Task<Domain.UserState?> ReadUserByIdAsync(int userId)
     {
         string query = "SELECT * FROM User WHERE UserId = @UserId";
         var users = await _controller.Select(query.Replace("@UserId", userId.ToString()));
         return users.FirstOrDefault();
     }
 
-    public static async Task<Domain.User?> ReadUserByEmailAddress(string emailAddress)
+    public static async Task<Domain.UserState?> ReadUserByEmailAddress(string emailAddress)
     {
         string query = "SELECT * FROM User WHERE UserEmail = @UserEmail";
         var users = await _controller.Select(query.Replace("@UserId", emailAddress));
         return users.FirstOrDefault();
     }
 
-    public static async Task AddUserAsync(Domain.User user)
+    public static async Task AddUserAsync(Domain.UserState user)
     {
         string query = @"INSERT INTO User (UserId, UserName, UserPassword, UserEmail, UserRole)
                          VALUES (@UserId, @UserName, @UserPassword, @UserEmail, @UserRole)";
         await _controller.InsertSingle(query, user);
     }
 
-    public static async Task UpdateUserAsync(Domain.User user)
+    public static async Task UpdateUserAsync(Domain.UserState user)
     {
         string query = @"UPDATE User SET 
                             UserName = @UserName, 

@@ -24,38 +24,41 @@ public class UserData
 
 public enum UserRole { Admin, User }
 
-public class User
+public class UserState
 {
     public required UserData UserData { get; set; }
     public required UserRole UserRole { get; set; }
+}
 
-    public static Result<User> UpdateUserName_R(string newName, User user)
+public class UserCommmand
+{
+    public static Result<UserState> UpdateUserName_R(string newName, UserState user)
     {
         if (string.IsNullOrWhiteSpace(newName))
-            return Result<User>.Failure(UserErrors.InvalidNameString(newName));
+            return Result<UserState>.Failure(UserErrors.InvalidNameString(newName));
 
         user.UserData.UserName = newName;
-        return Result<User>.Success(user);
+        return Result<UserState>.Success(user);
     }
 
-    public static Result<User> UpdateUserEmail_R(string email, User user)
+    public static Result<UserState> UpdateUserEmail_R(string email, UserState user)
     {
         if (!EmailValidator.IsValidEmail(email))
-            return Result<User>.Failure(UserErrors.InvalidEmailString(email));
+            return Result<UserState>.Failure(UserErrors.InvalidEmailString(email));
 
         user.UserData.UserEmail = email;
-        return Result<User>.Success(user);
+        return Result<UserState>.Success(user);
     }
 
-    public static Result<User> UpdateUserPassword_R(string currentPassword, string newPassword, User user)
+    public static Result<UserState> UpdateUserPassword_R(string currentPassword, string newPassword, UserState user)
     {
         if (!PasswordValidator.IsValidPassword(newPassword))
-            return Result<User>.Failure(UserErrors.InvalidPasswordString(newPassword));
+            return Result<UserState>.Failure(UserErrors.InvalidPasswordString(newPassword));
 
         if (currentPassword != user.UserData.UserPassword)
-            return Result<User>.Failure(UserErrors.InvalidCurrentPassword(currentPassword));
+            return Result<UserState>.Failure(UserErrors.InvalidCurrentPassword(currentPassword));
 
         user.UserData.UserPassword = newPassword;
-        return Result<User>.Success(user);
+        return Result<UserState>.Success(user);
     }
 }
