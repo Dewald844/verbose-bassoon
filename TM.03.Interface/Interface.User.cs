@@ -113,7 +113,7 @@ public class UserInterface
     {
         // Check if the user does exist 
 
-        Domain.User? user = await Database.UserRepository.ReadUserByEmailAddress(email);
+        User? user = await Database.UserRepository.ReadUserByEmailAddress(email);
 
         if (user != null)
             return Result<int>.Failure(new Error(
@@ -133,7 +133,7 @@ public class UserInterface
 
         // Create user data from input
 
-        Domain.UserData userData = new()
+        UserData userData = new()
         {
             UserId = newUserId,
             UserName = userName,
@@ -141,9 +141,9 @@ public class UserInterface
             UserEmail = email
         };
 
-        Domain.UserRole role = (userRole == "Admin") ? Domain.UserRole.Admin : Domain.UserRole.User;
+        UserRole role = (userRole == "Admin") ? UserRole.Admin : UserRole.User;
 
-        Domain.User newUser = new()
+        User newUser = new()
         {
             UserData = userData,
             UserRole = role
