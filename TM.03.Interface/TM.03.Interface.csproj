@@ -4,7 +4,7 @@
     <ProjectReference Include="..\TM.02.Database\TM.02.Database.csproj" />
   </ItemGroup>
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>TM._03.Interface</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>

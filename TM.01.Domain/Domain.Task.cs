@@ -3,7 +3,8 @@ namespace TaskManager.Domain;
 using Helpers;
 
 
-public class TaskErrors : Errors {
+public class TaskErrors : Errors
+{
     public static Error InvalidTaskState(string message) =>
         new("Error.InvalidTaskState", message);
 
@@ -35,13 +36,13 @@ public class Task
 
 public class TaskCommand
 {
-    public Result UpdateTaskStatus_R(Task task, Status newStatus)
+    public static Result UpdateTaskStatus_R(Task task, Status newStatus)
     {
         task.TaskStatus = newStatus;
         return Result.Success();
     }
 
-    public Result UpdateTaskPriority_R(Task task, Priority newPriority)
+    public static Result UpdateTaskPriority_R(Task task, Priority newPriority)
     {
         if (task.TaskStatus is Status.Complete)
             return Result.Failure(TaskErrors.InvalidTaskState("Task is already complete cannot update priority"));
@@ -50,18 +51,18 @@ public class TaskCommand
         return Result.Success();
     }
 
-    public Result AppendAssignedUser_R(Task task, int userId)
+    public static Result AppendAssignedUser_R(Task task, int userId)
     {
         if (task.TaskStatus is Status.Complete)
             return Result.Failure(TaskErrors.InvalidTaskState("Task is already complete cannot add assignee"));
-            
+
         if (task.TaskData.AssigneeIdL.Add(userId))
             return Result.Success();
         else
             return Result.Success();
     }
 
-    public Result RemoveAssignedUser_R(Task task, int userId)
+    public static Result RemoveAssignedUser_R(Task task, int userId)
     {
         if (task.TaskStatus is Status.Complete)
             return Result.Failure(TaskErrors.InvalidTaskState("Task is already complete cannot remove assignee"));
@@ -72,7 +73,7 @@ public class TaskCommand
             return Result.Failure(TaskErrors.UserNotPresentInAssigneeL());
     }
 
-    public Result UpdateDueDate_R(Task task, DateTime newDueDate)
+    public static Result UpdateDueDate_R(Task task, DateTime newDueDate)
     {
         if (task.TaskStatus is Status.Complete)
             return Result.Failure(TaskErrors.InvalidTaskState("Task is already complete cannot update due date"));
@@ -81,7 +82,7 @@ public class TaskCommand
         return Result.Success();
     }
 
-    public Result CompleteTask_R(Task task, DateTime completeDate)
+    public static Result CompleteTask_R(Task task, DateTime completeDate)
     {
         if (task.TaskStatus is Status.Complete)
             return Result.Failure(TaskErrors.InvalidTaskState("Task is already marked as completed"));
